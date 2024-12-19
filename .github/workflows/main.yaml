@@ -21,6 +21,7 @@ jobs:
 
       - name: Setup postgres with docker-compose
         run: |
+          cd docker
           docker compose up -d
 
       - name: Build App
