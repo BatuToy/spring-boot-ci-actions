@@ -1,0 +1,30 @@
+version: '4.0'
+services:
+  order_postgres_compose:
+    env_file:
+      - db.env
+    image: postgres:12
+    hostname: order_postgres
+    container_name: order_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: '{POSTGRES_PASSWORD}'
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./order-data:/var/lib/postgresql/data
+      - ./init-sql/initialize-db.sql:/docker-entrypoint-initdb.d/initialize-db.sql
+    # Auto initialization with .sql file. Mounting the local .sql file to ":/docker-entrypoint-initdb.d/.sql" !
+    #  - ./init.sh://docker-entrypoint-init.sh
+    #entrypoint: ["/bin/sh", "/docker-entrypoint-init.sh"]
+
+      # Entrypoint.sh is working but not functional!
+      # Have to find a better solution for this situation problem!
+
+
+
+    
+
+      
+
+

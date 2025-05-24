@@ -1,25 +1,26 @@
 package com.batu.action.example.dto;
 
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.*;
+import lombok.*;
 
-@Builder
+@Setter
 @Getter
 @AllArgsConstructor
 public class CreateOrderRequest {
     @NotNull
-    //@Min(value = 10)
+    @NotEmpty
     private final String orderName;
+
     @NotNull
-    @Min(value = 1)
-    //@Max(value = 100)
-    private final Long orderAmount;
-    @NotNull
-    //@Min(value = 20)
+    @NotEmpty
     private final String shippingAddress;
+
+    @NotNull
+    @NotEmpty
+    @Size.List({
+            @Size(min=1, message = "Order quantity must be greater then 0!"),
+            @Size(max=100, message = "Order quantity must be lesser then 0100!")
+    })
+    private final Long orderAmount;
+
 }

@@ -13,13 +13,16 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequiredArgsConstructor
 @RequestMapping(value = "/order")
 public class OrdersController {
 
     private final OrderService orderService;
 
-    @PostMapping("/create")
+    public OrdersController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @PostMapping
     public ResponseEntity<AppResponse<OrderResponse>> createOrder(@RequestBody CreateOrderRequest req) {
         log.info("Creating order!");
         OrderResponse response = orderService.createOrder(req);
@@ -40,7 +43,7 @@ public class OrdersController {
         ));
     }
 
-    @PostMapping
+    @PostMapping("/getOrderByOrderId")
     public ResponseEntity<AppResponse<GetOrderResponse>> getOrderByOrderId(@RequestBody GetOrderByIdRequest req){
         log.info("Order with orderId= {} started to pull the order from the persist store!", req.getOrderId().toString());
         GetOrderResponse response = orderService.getOrderById(req);

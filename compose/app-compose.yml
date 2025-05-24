@@ -1,0 +1,51 @@
+version: '4.0'
+
+services:
+  app:
+    env_file:
+      - app.env
+    # The image we built before!
+    image: batuhantoy/spring-order-app
+    container_name: spring-order-app
+    restart: on-failure
+    ports:
+      - "9000:9000"
+    depends_on:
+      - postgres
+    environment:
+      SPRING_JPA_HIBERNATE_DATABASE_PLATFORM: org.hibernate.dialect.PostgreSQLDialect
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/order_db
+      SPRING_DATASOURCE_USER: action_user #${DATABASE_USER}
+      SPRING_DATASOURCE_PASSWORD: action_pass #${DATABASE_PASSWORD}
+    networks:
+      - basic-network
+
+
+  postgres:
+    env_file:
+      - app.env
+    image: postgres:12
+    container_name: order_db
+    restart: on-failure
+    environment:
+      POSTGRES_DB: order_db
+      POSTGRES_USER: action_user
+      POSTGRES_PASSWORD: action_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./order-data:/var/lib/postgresql/data
+      - ./init-sql/initialize-db.sql:/docker-entrypoint-initdb.d/initialize-db.sql
+    networks:
+      - basic-network
+      # Auto initialization with .sql file. Mounting the local .sql file to ":/docker-entrypoint-initdb.d/.sql" !
+      #  - ./init.sh://docker-entrypoint-init.sh
+      #entrypoint: ["/bin/sh", "/docker-entrypoint-init.sh"]
+      # Entrypoint.sh is working but not functional!
+      # Have to find a better solution for this situation problem!
+
+
+networks:
+  basic-network:
+    driver: bridge
+

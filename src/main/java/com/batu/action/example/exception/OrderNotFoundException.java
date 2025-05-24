@@ -1,6 +1,8 @@
 package com.batu.action.example.exception;
 
-public class OrderNotFoundException extends RuntimeException{
+import com.batu.action.example.exception.domain.DomainException;
+
+public class OrderNotFoundException extends DomainException {
     public OrderNotFoundException(String message) {
         super(message);
     }

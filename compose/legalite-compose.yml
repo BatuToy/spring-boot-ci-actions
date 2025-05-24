@@ -1,0 +1,37 @@
+version: '3.7'
+
+              # This compose file will be moved to 'c://work/tools/docker'. Reason to do this -->
+              # Volumes and init.sql files can all be stay in the same dir to make establishment easier. (Maybe .env files too!)
+
+              # -->  Building 'postgres_tr' image
+              # --> "c://work/tools/docker" --> .Dockerfile to build 'postgres_tr' with command
+              # --> 'docker build -t postgres_tr .'
+services:
+  postgres_lega-lite_db:
+    env_file:
+      - legalite.env
+    image: postgres_tr
+    container_name: legalite_db
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./legalite_data:/var/lib/postgresql/data
+      - ./init-sql/init_legalite.sql:/docker-entrypoint-initdb.d/init_legalite.sql
+
+  mongo_legalite:
+    image: mongo:3.2
+    container_name: legalite_mongo
+    command: ["mongod", "--auth"]
+    volumes:
+      - ./legalite_mongo_data:/data/db
+      - ./init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+
+  mongo_test_legalite:
+    image: mongo:3.2
+    container_name: legalite_mongo_test
+    command: [ "mongod", "--auth" ]
+    volumes:
+      - ./legalite_mongo_data_test:/data/db
+

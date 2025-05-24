@@ -11,5 +11,4 @@ public class AppResponse<T> {
     private final T data;
     private final HttpStatus status;
     private final String message;
-
 }

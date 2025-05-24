@@ -1,5 +1,6 @@
 package com.batu.action.example.model;
 
+import com.batu.action.example.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,6 +10,7 @@ import org.hibernate.annotations.UuidGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.UUID;
 
@@ -17,14 +19,16 @@ import java.util.UUID;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name =  "orders")
-public class Order {
+@Table(name =  "t_orders")
+public class Order  {
     @Id
+    @Column(name = "ORDER_ID")
     private UUID id;
     @Column(name = "ORDER_NAME")
     private String orderName;
+    @Enumerated(EnumType.STRING)
     @Column(name = "ORDER_STATUS")
-    private Boolean orderStatus;
+    private OrderStatus orderStatus;
     @Column(name = "ORDER_AMOUNT")
     private Long orderAmount;
     @Column(name = "SHIPPING_ADDRESS")

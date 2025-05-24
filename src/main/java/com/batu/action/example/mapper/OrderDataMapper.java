@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderDataMapper {
 
-    public Order createOrderRequestToOrder(CreateOrderRequest createOrderRequest){
+    public Order createOrderRequestToOrder(CreateOrderRequest createOrderRequest) {
         return Order.builder()
                 .orderAmount(createOrderRequest.getOrderAmount())
                 .orderName(createOrderRequest.getOrderName())
@@ -18,18 +18,18 @@ public class OrderDataMapper {
 
     }
 
-    public OrderResponse orderToOrderResponse(Order order){
-        return OrderResponse.builder()
-                .id(order.getId())
-                .orderStatus(order.getOrderStatus())
-                .shippingAddress(order.getShippingAddress())
-                .build();
+    public OrderResponse orderToOrderResponse(Order order) {
+        return new OrderResponse(
+                order.getId(),
+                order.getOrderStatus().getStatus(),
+                order.getShippingAddress()
+        );
     }
 
-    public GetOrderResponse orderToGetOrderResponse(Order order){
-        return GetOrderResponse.builder()
-                .orderStatus(order.getOrderStatus())
-                .amount(order.getOrderAmount())
-                .build();
+    public GetOrderResponse orderToGetOrderResponse(Order order) {
+       return new GetOrderResponse(
+               order.getOrderAmount(),
+               order.getOrderStatus().getStatus()
+       );
     }
 }
