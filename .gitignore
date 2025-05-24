@@ -8,6 +8,9 @@ compose/
 !**/legalite-compose.yml
 !**/order-data
 
+data/
+
+
 ### STS ###
 .apt_generated
 .classpath
